@@ -58,8 +58,7 @@ public class ProductController {
 				for(String productName:products.keySet()) {
 					JSONObject product = products.getJSONObject(productName);
 					this.addProduct(new Product(null, productName, product.getString("Language"), product.getString("Category"), product.getInt("Price"), product.getInt("Rating"),product.getString("Age")));
-				}
-					
+				}	
 			}
 			loaded = true;
 		}
