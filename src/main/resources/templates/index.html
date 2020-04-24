@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" th:href="@{/static/main.css}">
+    <meta name="viewport"charset="utf-8">
+    <title>Gift Recommender</title>
+  </head>
+  <body>
+    <h1>Products</h1>
+    <a href="category/videogames">Get Videogames</a>
+    <a href="/">GetAll</a>
+    <div>
+      <th:block th:each="product :${products}">
+      <table>
+      <tr>
+      <th>Name:</th>
+      <th><h1 th:text="${product.name}"></h1></th>
+      </tr>
+      <tr>
+      <th>Category:</th>
+      <th><h1 th:text="${product.category}"></h1></th>
+      </tr>
+      <tr>
+      <th>Language:</th>
+      <th><h1 th:text="${product.language}"></h1></th>
+      </tr>
+      <tr>
+      <th>Rating:</th>
+      <th><h1 th:text="${product.rating}"></h1></th>
+      </tr>
+      <tr>
+      <th>Age:</th>
+      <th><h1 th:text="${product.age}"></h1></th>
+      </tr>
+      <tr>
+      <th>Price:</th>
+      <th><h1 th:text="${product.price}"></h1></th>
+      </tr>
+      </table>
+      <th:block>
+    </div>
+  </body>
+</html>

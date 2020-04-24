@@ -1,0 +1,72 @@
+{"Products": {
+   "Asimov:Trilogia-de-la-fundacion": {
+      "Category": "Books",
+      "Language": "Spanish",
+      "Price": 31,
+      "Rating": 5,
+      "Age": "+ 12"
+   },
+   "Bloodborne": {
+      "Category": "Videogames",
+      "Language": "English",
+      "Price": 25,
+      "Rating": 4,
+      "Age": "+ 16"
+   },
+   "The-Martian": {
+      "Category": "Movies",
+      "Language": "English",
+      "Price": 7,
+      "Rating": 3,
+      "Age": "+ 7"
+   },
+   "Europa-Universalis-IV": {
+      "Category": "Videogames",
+      "Language": "English",
+      "Price": 20,
+      "Rating": 4,
+      "Age": "+ 12"
+   },
+   "Alatriste:Sol-de-Breda": {
+      "Category": "Books",
+      "Language": "Spanish",
+      "Price": 21,
+      "Rating": 4,
+      "Age": "+ 16"
+   },
+   "DOOM": {
+      "Category": "Videogames",
+      "Language": "English",
+      "Price": 14,
+      "Rating": 5,
+      "Age": "+ 18"
+   },
+   "Economia-Basica": {
+      "Category": "Books",
+      "Language": "Spanish",
+      "Price": 15,
+      "Rating": 3,
+      "Age": "+ 12"
+   },
+   "Starcraft-2": {
+      "Category": "Videogames",
+      "Language": "English",
+      "Price": 15,
+      "Rating": 3,
+      "Age": "+ 12"
+   },
+   "Arduino-UNO": {
+      "Category": "Electronics",
+      "Language": "English",
+      "Price": 31,
+      "Rating": 4,
+      "Age": "+ 7"
+   },
+   "Horizon-Zero-Dawn": {
+      "Category": "Videogames",
+      "Language": "English",
+      "Price": 20,
+      "Rating": 3,
+      "Age": "+ 16"
+   }
+}}
