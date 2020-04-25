@@ -1,4 +1,4 @@
-package com.recommender.app.api;
+package com.recommender.app.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
