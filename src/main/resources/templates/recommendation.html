@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" th:href="@{/static/main.css}">
-    <meta name="viewport"charset="utf-8">
-    <title>Gift Recommender</title>
+    <meta charset="utf-8">
+    <title>Recommendation</title>
   </head>
   <body>
-    <a href="recommend">Recommend several</a>
-    <a href="recommend/unique">Recommend unique</a>
-    <h1>Products</h1>
-    <div>
+    <h1>Recommendation</h1>
+    <a href="/">GetAll</a>
+    <table>
+      <tr>
+        <th><h1>Age:</h1></th>
+        <th th:text="${age}"></th>
+      </tr>
+       <tr>
+        <th><h1>Category:</h1></th>
+        <th th:text="${category}"></th>
+      </tr>
+    </table> 
+    <h1 th:text="${message}"></h1>
+    <div class="">
       <th:block th:each="product :${products}">
       <table>
       <tr>

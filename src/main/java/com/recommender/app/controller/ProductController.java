@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -13,14 +16,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.recommender.app.exceptions.RecommendationNotFoundException;
 import com.recommender.app.model.Product;
+import com.recommender.app.recommenders.FakeRecommender;
 import com.recommender.app.service.ProductService;
 
 @Controller
 public class ProductController {
 	private final ProductService service;
 	private boolean loaded;
-
+	private static final String [] categories = {"Videogames","Books","Movies","Electronics"};
 	@Autowired
 	public ProductController(ProductService service) {
 		this.service = service;
@@ -37,10 +42,43 @@ public class ProductController {
 		model.addAttribute("products", service.getAll());
 		return "index";
 	}
-	@RequestMapping("category/videogames")
-	public String showVideogames(Model model) {
-		model.addAttribute("products", service.getByCategory("Videogames"));
-		return "index";
+	@RequestMapping("recommend/unique")
+	public String showRecommendationUnique(Model model) {
+		Random rand = new Random();
+		int age = rand.nextInt(20)+1;
+		model.addAttribute("age", (Integer)age);
+		String category = categories[rand.nextInt(categories.length)];
+		model.addAttribute("category", category);
+		List<Product> products = new ArrayList<Product>();
+		String message = "Recommendation found!";
+		try {
+			products = FakeRecommender.recommendByCategory(true, service.getByCategory(category), age);
+		} catch (RecommendationNotFoundException e) {
+			// TODO Auto-generated catch block
+			message = e.getMessage();
+		}
+		model.addAttribute("products", products);
+		model.addAttribute("message", message);
+		return "recommendation";
+	}
+	@RequestMapping("recommend")
+	public String showRecommendation(Model model) {
+		Random rand = new Random();
+		int age = rand.nextInt(20)+1;
+		model.addAttribute("age", (Integer)age);
+		String category = categories[rand.nextInt(categories.length)];
+		model.addAttribute("category", category);
+		List<Product> products = new ArrayList<Product>();
+		String message = "Recommendation found!";
+		try {
+			products = FakeRecommender.recommendByCategory(true, service.getByCategory(category), age);
+		} catch (RecommendationNotFoundException e) {
+			// TODO Auto-generated catch block
+			message = e.getMessage();
+		}
+		model.addAttribute("products", products);
+		model.addAttribute("message", message);
+		return "recommendation";
 	}
 	private void loadFromJSON() {
 		if (!loaded) {
