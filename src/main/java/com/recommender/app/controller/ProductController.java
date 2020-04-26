@@ -25,11 +25,12 @@ import com.recommender.app.service.ProductService;
 public class ProductController {
 	private final ProductService service;
 	private boolean loaded;
-	private static final String [] categories = {"Videogames","Books","Movies","Electronics"};
+	private static final String [] categories = {"Videogames","Books","Movies","Electronics","Beer","Photography"};
 	@Autowired
 	public ProductController(ProductService service) {
 		this.service = service;
 		loaded = false;
+		FakeRecommender.initializePrices();
 		loadFromJSON();
 	}
 
@@ -52,7 +53,7 @@ public class ProductController {
 		List<Product> products = new ArrayList<Product>();
 		String message = "Recommendation found!";
 		try {
-			products = FakeRecommender.recommendByCategory(true, service.getByCategory(category), age);
+			products = FakeRecommender.recommendByCategory(true, service.getByCategory(category), age,category);
 		} catch (RecommendationNotFoundException e) {
 			// TODO Auto-generated catch block
 			message = e.getMessage();
@@ -71,7 +72,7 @@ public class ProductController {
 		List<Product> products = new ArrayList<Product>();
 		String message = "Recommendation found!";
 		try {
-			products = FakeRecommender.recommendByCategory(true, service.getByCategory(category), age);
+			products = FakeRecommender.recommendByCategory(false, service.getByCategory(category), age,category);
 		} catch (RecommendationNotFoundException e) {
 			// TODO Auto-generated catch block
 			message = e.getMessage();

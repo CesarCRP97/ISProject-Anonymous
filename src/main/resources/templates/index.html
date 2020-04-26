@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" th:href="@{/static/main.css}">
+    <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
     <meta name="viewport"charset="utf-8">
     <title>Gift Recommender</title>
   </head>
   <body>
-    <a href="recommend">Recommend several</a>
-    <a href="recommend/unique">Recommend unique</a>
-    <h1>Products</h1>
+    <p class = "recommendButton"><a href="recommend">Recommend several</a></p>
+    <p class = "recommendButton"><a href="recommend/unique">Recommend unique</a></p>
+    <h1 id="title">Products</h1>
     <div>
       <th:block th:each="product :${products}">
       <table>
       <tr>
       <th>Name:</th>
-      <th><h1 th:text="${product.name}"></h1></th>
+      <th class="tableRight"><h1 th:text="${product.name}"></h1></th>
       </tr>
       <tr>
       <th>Category:</th>
-      <th><h1 th:text="${product.category}"></h1></th>
+      <th class="tableRight"><h1 th:text="${product.category}"></h1></th>
       </tr>
       <tr>
       <th>Language:</th>
-      <th><h1 th:text="${product.language}"></h1></th>
+      <th class="tableRight"><h1 th:text="${product.language}"></h1></th>
       </tr>
       <tr>
       <th>Rating:</th>
-      <th><h1 th:text="${product.rating}"></h1></th>
+      <th class="tableRight"><h1 th:text="${product.rating}"></h1></th>
       </tr>
       <tr>
       <th>Age:</th>
-      <th><h1 th:text="${product.age}"></h1></th>
+      <th class="tableRight"><h1 th:text="${product.age}"></h1></th>
       </tr>
       <tr>
       <th>Price:</th>
-      <th><h1 th:text="${product.price}"></h1></th>
+      <th class="tableRight"><h1 th:text="${product.price}"></h1></th>
       </tr>
       </table>
       <th:block>

@@ -1,3 +1,50 @@
 html{
-  background-color: black;
+  background:-moz-radial-gradient(top left,whitesmoke,gray);
+}
+#title{
+	text-align:center;
+	font-size:50px;
+}
+a:hover{
+	text-decoration: none;
+	color:white;
+}
+a:visited{
+	text-decoration:none;
+	color:white;
+}
+a:link{
+	text-decoration:none;
+	color:white;
+}
+.recommendButton{
+  left:40%;
+  position:relative;
+  width: 10%;
+  box-shadow: 5px 5px 5px black;
+  background-color: gray;
+  display: inline-block;
+  border-width:medium;
+  border-style: solid;
+  border-color:whitesmoke;
+  text-align: center;
+}
+.recommendButton:hover{
+  box-shadow: 0px 0px 0px black;
+}
+div{
+	width:100%;
+}
+table{
+	width:100%;
+}
+tr{
+	background-color:gray;
+  	width:100%;
+
+}
+
+.tableRight{
+
+	width:95%;
 }
