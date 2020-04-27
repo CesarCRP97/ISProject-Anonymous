@@ -13,47 +13,55 @@ import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.recommender.app.exceptions.RecommendationNotFoundException;
 import com.recommender.app.model.Product;
+import com.recommender.app.model.Questionary;
 import com.recommender.app.recommenders.FakeRecommender;
 import com.recommender.app.service.ProductService;
 
 @Controller
+@RequestMapping("/")
 public class ProductController {
 	private final ProductService service;
 	private boolean loaded;
-	private static final String [] categories = {"Videogames","Books","Movies","Electronics","Beer","Photography"};
 	@Autowired
 	public ProductController(ProductService service) {
 		this.service = service;
 		loaded = false;
 		FakeRecommender.initializePrices();
-		loadFromJSON();
+		try {
+			loadFromJSON();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Failed to load json file");
+		}
 	}
 
 	private void addProduct(Product product) {
 		service.addProduct(product);
 	}
 	
-	@RequestMapping("/")
+	@GetMapping("")
 	public String showAll(Model model) {
 		model.addAttribute("products", service.getAll());
 		return "index";
 	}
-	@RequestMapping("recommend/unique")
-	public String showRecommendationUnique(Model model) {
+	
+	@GetMapping("recommend")
+	public String showRecommendation(@ModelAttribute Questionary questionary,Model model) {
 		Random rand = new Random();
-		int age = rand.nextInt(20)+1;
-		model.addAttribute("age", (Integer)age);
-		String category = categories[rand.nextInt(categories.length)];
+		model.addAttribute("age", questionary.getAgeUser());
+		String category =questionary.getHobbiesCategories().get(rand.nextInt(questionary.getHobbiesCategories().size()));
 		model.addAttribute("category", category);
 		List<Product> products = new ArrayList<Product>();
 		String message = "Recommendation found!";
 		try {
-			products = FakeRecommender.recommendByCategory(true, service.getByCategory(category), age,category);
+			products = FakeRecommender.recommendByCategory(questionary.isUnique(), service.getByCategory(category), questionary.getAgeUser(),category);
 		} catch (RecommendationNotFoundException e) {
 			// TODO Auto-generated catch block
 			message = e.getMessage();
@@ -62,35 +70,12 @@ public class ProductController {
 		model.addAttribute("message", message);
 		return "recommendation";
 	}
-	@RequestMapping("recommend")
-	public String showRecommendation(Model model) {
-		Random rand = new Random();
-		int age = rand.nextInt(20)+1;
-		model.addAttribute("age", (Integer)age);
-		String category = categories[rand.nextInt(categories.length)];
-		model.addAttribute("category", category);
-		List<Product> products = new ArrayList<Product>();
-		String message = "Recommendation found!";
-		try {
-			products = FakeRecommender.recommendByCategory(false, service.getByCategory(category), age,category);
-		} catch (RecommendationNotFoundException e) {
-			// TODO Auto-generated catch block
-			message = e.getMessage();
-		}
-		model.addAttribute("products", products);
-		model.addAttribute("message", message);
-		return "recommendation";
-	}
-	private void loadFromJSON() {
+	private void loadFromJSON() throws FileNotFoundException {
 		if (!loaded) {
 			InputStream input = null;
-			try {
-				input = new FileInputStream(new File(
-						"C:/Users/pablo/Desktop/SpringApps/Gift_Recommender/src/main/resources/static/products.json"));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				System.out.println("failed to find the file");
-			}
+			
+				input = new FileInputStream(new File("src/main/resources/static/products.json"));
+			
 			if (input != null) {
 				JSONObject jo = new JSONObject(new JSONTokener(input));
 				JSONObject products = jo.getJSONObject("Products");
@@ -98,9 +83,9 @@ public class ProductController {
 					JSONObject product = products.getJSONObject(productName);
 					this.addProduct(new Product(null, productName, product.getString("Language"), product.getString("Category"), product.getInt("Price"), product.getInt("Rating"),product.getString("Age")));
 				}
-					
+				loaded = true;	
 			}
-			loaded = true;
+			
 		}
 	}
 }

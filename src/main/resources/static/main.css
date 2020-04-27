@@ -17,6 +17,11 @@ a:link{
 	text-decoration:none;
 	color:white;
 }
+.bar{
+	background:-moz-radial-gradient(top left,black,gray);
+	width:100%;
+  height: 50px;
+}
 .recommendButton{
   left:40%;
   position:relative;

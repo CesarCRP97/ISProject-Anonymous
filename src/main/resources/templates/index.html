@@ -6,8 +6,7 @@
     <title>Gift Recommender</title>
   </head>
   <body>
-    <p class = "recommendButton"><a href="recommend">Recommend several</a></p>
-    <p class = "recommendButton"><a href="recommend/unique">Recommend unique</a></p>
+    <p class = "recommendButton"><a href="questionary">Go to questionary</a></p>
     <h1 id="title">Products</h1>
     <div>
       <th:block th:each="product :${products}">
@@ -37,6 +36,7 @@
       <th class="tableRight"><h1 th:text="${product.price}"></h1></th>
       </tr>
       </table>
+      <div class = "bar"></div>
       <th:block>
     </div>
   </body>

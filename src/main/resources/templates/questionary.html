@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+     <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
+    <title>Recommendation</title>
+  </head>
+  <body>
+    <h1>Recommendation</h1>
+    <p class = "recommendButton"><a href="/">GetAll</a></p>
+
+      <form class="" action="#" th:action="@{/recommend}" th:object ="${questionary}"method="get">
+      <p>Age:</p> 
+      <input type="number" th:field="*{ageUser}"/>
+      <p>Hobbies:</p>
+      <input type="text" th:field="*{hobbies}"/>
+      <p>Please write the hobbies separated by a comma</p>
+      <p>Language:</p>
+      <input type="text" th:field="*{language}"/>
+      <p>Upper bound budget:</p>
+      <input type="number" th:field="*{upperBound}"/>
+      <p>Lower bound budget:</p>
+      <input type="number" th:field="*{lowerBound}"/>
+      <p>Is unique?</p>
+      <input type="checkbox" th:field="*{unique}"/>
+      <p>Submit</p>
+      <input type="submit"  value="Recommend"/>
+      </form>
+
+  </body>
+</html>
