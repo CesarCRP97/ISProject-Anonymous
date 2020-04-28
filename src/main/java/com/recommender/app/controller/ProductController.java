@@ -54,19 +54,20 @@ public class ProductController {
 	
 	@GetMapping("recommend")
 	public String showRecommendation(@ModelAttribute Questionary questionary,Model model) {
-		Random rand = new Random();
 		model.addAttribute("age", questionary.getAgeUser());
-		String category =questionary.getHobbiesCategories().get(rand.nextInt(questionary.getHobbiesCategories().size()));
-		model.addAttribute("category", category);
+		model.addAttribute("category", questionary.getHobbies());
 		List<Product> products = new ArrayList<Product>();
+		for(String category:questionary.getHobbiesCategories())
+			products.addAll(service.getByCategory(category));
+		List<Product> recommended = new ArrayList<Product>();
 		String message = "Recommendation found!";
 		try {
-			products = FakeRecommender.recommendByCategory(questionary.isUnique(), service.getByCategory(category), questionary.getAgeUser(),category);
+			recommended = FakeRecommender.recommendSeveralCategories(questionary.isUnique(), products, questionary.getAgeUser(), questionary.getUpperBound(), questionary.getLowerBound());
 		} catch (RecommendationNotFoundException e) {
 			// TODO Auto-generated catch block
 			message = e.getMessage();
 		}
-		model.addAttribute("products", products);
+		model.addAttribute("products", recommended);
 		model.addAttribute("message", message);
 		return "recommendation";
 	}
