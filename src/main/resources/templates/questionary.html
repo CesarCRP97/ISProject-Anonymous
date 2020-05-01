@@ -8,7 +8,7 @@
   <body>
     <h1>Questionary</h1>
     <p class = "recommendButton"><a href="/">GetAll</a></p>
-
+		<h1 th:text="${message}"></h1>
       <form class="" action="#" th:action="@{/recommend}" th:object ="${questionary}"method="get">
       <p>Age:</p> 
       <input type="number" th:field="*{ageUser}"/>

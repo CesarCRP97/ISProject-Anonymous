@@ -3,10 +3,15 @@ package com.recommender.app.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.recommender.app.exceptions.QuestionaryInitializationFailedException;
 import com.recommender.app.model.Questionary;
+import com.recommender.app.model.forms.QuestionaryForm;
 
 @Controller
 @RequestMapping("/questionary")
@@ -14,22 +19,20 @@ public class QuestionaryController {
 	
 	public QuestionaryController() {
 		try {
-			Questionary.initializeQuestionaries();
+			QuestionaryForm.initializeQuestionaries();
 		} catch (QuestionaryInitializationFailedException e) {
 			System.out.println("Questionaries failed to start.Cause: "+e.getMessage());
 		}
 		System.out.println("Controller initialized");
 	}
-	@GetMapping("")
-	public String questionary(Model model) {
-		//Questionary defaultQuestionary = new Questionary();
-		//model.addAttribute("ageUser", defaultQuestionary.getAgeUser());
-		//model.addAttribute("language", defaultQuestionary.getLanguage());
-		//model.addAttribute("hobbies", defaultQuestionary.getHobbies());
-		//model.addAttribute("upperBound", defaultQuestionary.getUpperBound());
-		//model.addAttribute("lowerBound", defaultQuestionary.getLowerBound());
-		//model.addAttribute("unique", defaultQuestionary.isUnique());
-		model.addAttribute("questionary", new Questionary());
+	@GetMapping(value= {"","/{message}"})
+	public String questionary(@PathVariable(required = false ,name = "message")String message,Model model) {
+		if(message == null)
+			message = "Please complete this questionary";
+		model.addAttribute("questionary", new QuestionaryForm());
+		model.addAttribute("message", message);
+		
 		return "questionary";
 	}
+	
 }

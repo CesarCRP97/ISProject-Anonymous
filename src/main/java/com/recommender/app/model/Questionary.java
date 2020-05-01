@@ -33,57 +33,7 @@ public class Questionary {
 		upperBound = 60;
 		unique = false;
 	}
-	private static void initializeLanguages() throws QuestionaryInitializationFailedException {
-		Questionary.LANGUAGES = new HashSet<String>();
-		try(FileReader input = new FileReader(new File("src/main/resources/static/languages.txt"));BufferedReader reader = new BufferedReader(input)){
-			int numLanguages = Integer.parseInt(reader.readLine());
-			for(int i = 0;i<numLanguages;++i)
-				Questionary.LANGUAGES.add(reader.readLine());
-		} catch (IOException|NumberFormatException e) {
-			// TODO Auto-generated catch block
-			throw new QuestionaryInitializationFailedException("Languages could not be loaded");
-		}
-		
-	}
-	private static void initializeConverter() throws QuestionaryInitializationFailedException {
-		// TODO Auto-generated method stub
-		Questionary.HOBBIES_CATEGORIES_CONVERTER = new HashMap<String,String>();
-		try(FileReader input = new FileReader(new File("src/main/resources/static/converterHobbies.txt"));BufferedReader reader = new BufferedReader(input)){
-			int numCategories = Integer.parseInt(reader.readLine());
-			for(int i = 0;i<numCategories;++i) {
-				String hobbieCategory = reader.readLine();
-				Questionary.HOBBIES_CATEGORIES_CONVERTER.put(hobbieCategory,hobbieCategory);
-				int hobbiesInCategory = Integer.parseInt(reader.readLine());
-				for(int j = 0;j<hobbiesInCategory;++j) {
-					Questionary.HOBBIES_CATEGORIES_CONVERTER.put(reader.readLine(), hobbieCategory);
-				}
-			}
-		} catch (IOException|NumberFormatException e) {
-			// TODO Auto-generated catch block
-			throw new QuestionaryInitializationFailedException("Converter could not be initialized");
-		}
-	}
-	private static void initializeHobbies() throws QuestionaryInitializationFailedException {
-		Questionary.HOBBIES = new HashSet<String>();
-		try(FileReader input = new FileReader(new File("src/main/resources/static/hobbies.txt"));BufferedReader reader = new BufferedReader(input)){
-			int numHobbies = Integer.parseInt(reader.readLine());
-			for(int i = 0;i<numHobbies;++i)
-				Questionary.HOBBIES.add(reader.readLine());
-		} catch (IOException|NumberFormatException e) {
-			// TODO Auto-generated catch block
-			throw new QuestionaryInitializationFailedException("Hobbies could not be loaded");
-		}
-		
-	}
-	public static void initializeQuestionaries() throws QuestionaryInitializationFailedException {
-		
-		if(!loaded) {
-			initializeLanguages();
-			initializeHobbies();
-			initializeConverter();
-			loaded = true;
-		}
-	}
+	
 	public boolean isUnique() {
 		return unique;
 	}
