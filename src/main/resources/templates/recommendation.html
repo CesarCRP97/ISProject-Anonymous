@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
-    <meta name="viewport"charset="utf-8">
-    <title>Gift Recommender</title>
+    <meta charset="utf-8">
+     <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
+    <title>Recommendation</title>
   </head>
   <body>
-    <p class = "recommendButton"><a href="questionary">Go to questionary</a></p>
-    <h1 id="title">Products</h1>
-    <div>
+    <h1>Recommendation</h1>
+    <p class = "recommendButton"><a href="/">GetAll</a></p>
+    <table>
+      <tr>
+        <th><h1>Age:</h1></th>
+        <th th:text="${age}"></th>
+      </tr>
+       <tr>
+        <th><h1>Category:</h1></th>
+        <th th:text="${category}"></th>
+      </tr>
+    </table> 
+    <h1 th:text="${message}"></h1>
+    <div class="">
       <th:block th:each="product :${products}">
       <table>
       <tr>
