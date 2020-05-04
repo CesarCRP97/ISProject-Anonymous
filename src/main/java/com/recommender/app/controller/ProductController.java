@@ -15,8 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.recommender.app.exceptions.RecommendationNotFoundException;
@@ -26,7 +28,7 @@ import com.recommender.app.model.forms.QuestionaryForm;
 import com.recommender.app.recommenders.FakeRecommender;
 import com.recommender.app.service.ProductService;
 
-@Controller
+@RestController
 @RequestMapping("/")
 public class ProductController {
 	private final ProductService service;
@@ -49,16 +51,29 @@ public class ProductController {
 	}
 
 	@GetMapping("")
-	public String showAll(Model model) {
-		model.addAttribute("products", service.getAll());
-		return "index";
+	public ModelAndView showAll() {
+		ModelAndView modelAndView = new ModelAndView();
+		//model.addAttribute("products", service.getAll());
+		modelAndView.setViewName("index");
+		modelAndView.addObject("products",service.getAll());
+		return modelAndView;
+	}
+	@GetMapping("/json")
+	public List<Product> showAllJson() {
+		return service.getAll();
+	}
+	@GetMapping("/categories/{category}/json")
+	public List<Product> showCategoryJson(@PathVariable(required = true)String category) {
+		return service.getByCategory(category);
 	}
 
 	@GetMapping("recommend")
-	public String showRecommendation(@ModelAttribute QuestionaryForm questionary, Model model) {
+	public ModelAndView showRecommendation(@ModelAttribute QuestionaryForm questionary) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("recommendation");
 		if (questionary.isValid()) {
-			model.addAttribute("age", questionary.getAgeUser());
-			model.addAttribute("category", questionary.getHobbies());
+			modelAndView.addObject("age", questionary.getAgeUser());
+			modelAndView.addObject("category", questionary.getHobbiesCategories().toString());
 			List<Product> products = new ArrayList<Product>();
 			for (String category : questionary.getHobbiesCategories())
 				products.addAll(service.getByCategory(category));
@@ -71,12 +86,15 @@ public class ProductController {
 				// TODO Auto-generated catch block
 				message = e.getMessage();
 			}
-			model.addAttribute("products", recommended);
-			model.addAttribute("message", message);
-			return "recommendation";
+			modelAndView.addObject("products", recommended);
+			modelAndView.addObject("message", message);
+			return modelAndView;
 		}
 		else {
-			return "redirect:/questionary/"+questionary.getMessage();
+			modelAndView.setViewName("redirect:/questionary/invalid");
+			modelAndView.addObject("message", "Invalid form");
+			modelAndView.addObject("questionary",questionary);
+			return modelAndView;
 		}
 	}
 

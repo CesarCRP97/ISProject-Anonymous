@@ -190,13 +190,14 @@ public class QuestionaryForm {
 		return lowerBound<=upperBound&&upperBound>0&&lowerBound > 0 && validLanguage() && validHobbies() && ageUser > 0 && ageUser < 150;
 	}
 
-	public String getMessage() {
-		String message = "";
-		if (isValid())
-			message = "Please complete this questionary";
-		else {
-			message = "Invalid form";
-		}
-		return message;
+	public String toString() {
+		String output = "";
+		output+=lowerBound+" ";
+		output+=upperBound+" ";
+		output+=hobbies+" ";
+		output+=language+" ";
+		output+=ageUser+" ";
+		output+=unique;
+		return output;
 	}
 }

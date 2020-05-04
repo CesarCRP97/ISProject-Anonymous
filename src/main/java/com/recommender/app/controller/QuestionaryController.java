@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,7 +15,7 @@ import com.recommender.app.exceptions.QuestionaryInitializationFailedException;
 import com.recommender.app.model.Questionary;
 import com.recommender.app.model.forms.QuestionaryForm;
 
-@Controller
+@RestController
 @RequestMapping("/questionary")
 public class QuestionaryController {
 	
@@ -23,16 +25,23 @@ public class QuestionaryController {
 		} catch (QuestionaryInitializationFailedException e) {
 			System.out.println("Questionaries failed to start.Cause: "+e.getMessage());
 		}
-		System.out.println("Controller initialized");
 	}
-	@GetMapping(value= {"","/{message}"})
-	public String questionary(@PathVariable(required = false ,name = "message")String message,Model model) {
-		if(message == null)
-			message = "Please complete this questionary";
-		model.addAttribute("questionary", new QuestionaryForm());
-		model.addAttribute("message", message);
+	@GetMapping("")
+	public ModelAndView questionary() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("questionary");
+		model.addObject("questionary", new QuestionaryForm());
+		model.addObject("message", "Please complete this form");
 		
-		return "questionary";
+		return model;
+	}@GetMapping("/invalid")
+	public ModelAndView invalidQuestionary(@RequestParam(required = true,name="message")String message) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("questionary");
+		modelAndView.addObject("message",message);
+		modelAndView.addObject("questionary", new QuestionaryForm());
+		return modelAndView;
 	}
+	
 	
 }

@@ -2,7 +2,8 @@
 Videogames
 0
 Beer
-0
+1
+Drinking
 Electronics
 1
 Robotics
