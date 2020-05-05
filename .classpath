@@ -45,6 +45,6 @@
 			<attribute name="m2e-apt" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/pablo/Desktop/TP/Practica2TP2/lib/json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pablo/Desktop/SpringApps/Gift_Recommender/lib/json.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
