@@ -96,8 +96,7 @@ public class Questionary {
 	public void setAgeUser(int ageUser) {
 		if(ageUser>0&&ageUser<150)
 			this.ageUser = ageUser;
-		else
-			throw new IllegalArgumentException("Invalid age");
+		
 	}
 	public List<String> getHobbiesCategories() {
 		List<String> output = new ArrayList<String>();
@@ -112,8 +111,7 @@ public class Questionary {
 	public void setHobbies(String hobbies) {
 		if(validHobbies(hobbies))
 			this.hobbies = hobbies;
-		//else
-			//throw new IllegalArgumentException("Your hobbies cannot be found");
+		
 	}
 	private boolean validHobbies(String hobbies) {
 		String [] formattedHobbies = hobbies.trim().split(",");
@@ -132,8 +130,7 @@ public class Questionary {
 	public void setLanguage(String language) {
 		if(validLanguage(language))
 			this.language = language;
-		//else
-			//throw new IllegalArgumentException("Invalid language");
+		
 	}
 	private boolean validLanguage(String language) {
 		// TODO Auto-generated method stub
@@ -145,17 +142,15 @@ public class Questionary {
 	public void setLowerBound(int lowerBound) {
 		if(lowerBound>0)
 			this.lowerBound = lowerBound;
-		else
-			throw new IllegalArgumentException("Lower bound price should be greater than 0");
+		
 	}
 	public int getUpperBound() {
 		return upperBound;
 	}
 	public void setUpperBound(int upperBound) {
-		if(upperBound<Integer.MAX_VALUE)
+		if(upperBound>0)
 			this.upperBound = upperBound;
-		else
-			throw new IllegalArgumentException("Upper bound cannot be greater than "+((Integer)Integer.MAX_VALUE).toString());
+		
 	}
 	
 }

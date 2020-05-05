@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.recommender.app.exceptions.RecommendationNotFoundException;
 import com.recommender.app.model.Product;
@@ -24,7 +25,7 @@ import com.recommender.app.model.Questionary;
 import com.recommender.app.recommenders.FakeRecommender;
 import com.recommender.app.service.ProductService;
 
-@Controller
+@RestController
 @RequestMapping("/")
 public class ProductController {
 	private final ProductService service;
@@ -33,7 +34,6 @@ public class ProductController {
 	public ProductController(ProductService service) {
 		this.service = service;
 		loaded = false;
-		FakeRecommender.initializePrices();
 		try {
 			loadFromJSON();
 		} catch (FileNotFoundException e) {
@@ -41,21 +41,19 @@ public class ProductController {
 			System.out.println("Failed to load json file");
 		}
 	}
-
-	private void addProduct(Product product) {
-		service.addProduct(product);
-	}
 	
 	@GetMapping("")
-	public String showAll(Model model) {
-		model.addAttribute("products", service.getAll());
-		return "index";
+	public ModelAndView showAll() {
+		ModelAndView modelAndView = new ModelAndView("index");
+		modelAndView.addObject("products", service.getAll());
+		return modelAndView;
 	}
 	
 	@GetMapping("recommend")
-	public String showRecommendation(@ModelAttribute Questionary questionary,Model model) {
-		model.addAttribute("age", questionary.getAgeUser());
-		model.addAttribute("category", questionary.getHobbies());
+	public ModelAndView showRecommendation(@ModelAttribute Questionary questionary) {
+		ModelAndView modelAndView = new ModelAndView("recommendation");
+		modelAndView.addObject("age", questionary.getAgeUser());
+		modelAndView.addObject("category", questionary.getHobbies());
 		List<Product> products = new ArrayList<Product>();
 		for(String category:questionary.getHobbiesCategories())
 			products.addAll(service.getByCategory(category));
@@ -67,9 +65,9 @@ public class ProductController {
 			// TODO Auto-generated catch block
 			message = e.getMessage();
 		}
-		model.addAttribute("products", recommended);
-		model.addAttribute("message", message);
-		return "recommendation";
+		modelAndView.addObject("products", recommended);
+		modelAndView.addObject("message", message);
+		return modelAndView;
 	}
 	private void loadFromJSON() throws FileNotFoundException {
 		if (!loaded) {
@@ -82,7 +80,7 @@ public class ProductController {
 				JSONObject products = jo.getJSONObject("Products");
 				for(String productName:products.keySet()) {
 					JSONObject product = products.getJSONObject(productName);
-					this.addProduct(new Product(null, productName, product.getString("Language"), product.getString("Category"), product.getInt("Price"), product.getInt("Rating"),product.getString("Age")));
+					service.addProduct(new Product(null, productName, product.getString("Language"), product.getString("Category"), product.getInt("Price"), product.getInt("Rating"),product.getString("Age")));
 				}
 				loaded = true;	
 			}
