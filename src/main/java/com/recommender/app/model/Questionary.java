@@ -42,8 +42,7 @@ public class Questionary {
 	public void setAgeUser(int ageUser) {
 		if(ageUser>0&&ageUser<150)
 			this.ageUser = ageUser;
-		else
-			throw new IllegalArgumentException("Invalid age");
+		
 	}
 	
 	public List<String> getHobbies() {
@@ -51,8 +50,7 @@ public class Questionary {
 	}
 	public void setHobbies(List<String> hobbies) {
 			this.hobbies = hobbies;
-		//else
-			//throw new IllegalArgumentException("Your hobbies cannot be found");
+		
 	}
 	
 	public String getLanguage() {
@@ -61,8 +59,7 @@ public class Questionary {
 	
 	public void setLanguage(String language) {
 			this.language = language;
-		//else
-			//throw new IllegalArgumentException("Invalid language");
+		
 	}
 	public int getLowerBound() {
 		return lowerBound;

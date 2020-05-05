@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.recommender.app.exceptions.QuestionaryInitializationFailedException;
 import com.recommender.app.model.Questionary;
@@ -28,6 +30,7 @@ public class QuestionaryController {
 	}
 	@GetMapping("")
 	public ModelAndView questionary() {
+
 		ModelAndView model = new ModelAndView();
 		model.setViewName("questionary");
 		model.addObject("questionary", new QuestionaryForm());
@@ -40,6 +43,7 @@ public class QuestionaryController {
 		modelAndView.setViewName("questionary");
 		modelAndView.addObject("message",message);
 		modelAndView.addObject("questionary", new QuestionaryForm());
+
 		return modelAndView;
 	}
 	

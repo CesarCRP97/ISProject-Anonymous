@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+
 
 import com.recommender.app.exceptions.RecommendationNotFoundException;
 import com.recommender.app.model.Product;
@@ -46,10 +47,6 @@ public class ProductController {
 		}
 	}
 
-	private void addProduct(Product product) {
-		service.addProduct(product);
-	}
-
 	@GetMapping("")
 	public ModelAndView showAll() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -65,9 +62,11 @@ public class ProductController {
 	@GetMapping("/categories/{category}/json")
 	public List<Product> showCategoryJson(@PathVariable(required = true)String category) {
 		return service.getByCategory(category);
+
 	}
 
 	@GetMapping("recommend")
+
 	public ModelAndView showRecommendation(@ModelAttribute QuestionaryForm questionary) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("recommendation");
@@ -96,6 +95,7 @@ public class ProductController {
 			modelAndView.addObject("questionary",questionary);
 			return modelAndView;
 		}
+
 	}
 
 	private void loadFromJSON() throws FileNotFoundException {
@@ -109,9 +109,9 @@ public class ProductController {
 				JSONObject products = jo.getJSONObject("Products");
 				for (String productName : products.keySet()) {
 					JSONObject product = products.getJSONObject(productName);
-					this.addProduct(
-							new Product(null, productName, product.getString("Language"), product.getString("Category"),
-									product.getInt("Price"), product.getInt("Rating"), product.getString("Age")));
+
+					service.addProduct(new Product(null, productName, product.getString("Language"), product.getString("Category"), product.getInt("Price"), product.getInt("Rating"),product.getString("Age")));
+
 				}
 				loaded = true;
 			}
