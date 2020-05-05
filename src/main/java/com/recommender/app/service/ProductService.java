@@ -1,5 +1,6 @@
 package com.recommender.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class ProductService {
 	public List<Product> getByCategory(String category){
 		return productDao.getProductsWithCategory(category);
 	}
+	
 	public List<Product> getAll() {
 		return productDao.getAll();
 	}

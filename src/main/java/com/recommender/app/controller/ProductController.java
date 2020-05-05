@@ -23,6 +23,7 @@ import com.recommender.app.exceptions.RecommendationNotFoundException;
 import com.recommender.app.model.Product;
 import com.recommender.app.model.Questionary;
 import com.recommender.app.recommenders.FakeRecommender;
+import com.recommender.app.recommenders.Recommender;
 import com.recommender.app.service.ProductService;
 
 @RestController
@@ -59,14 +60,12 @@ public class ProductController {
 			products.addAll(service.getByCategory(category));
 		List<Product> recommended = new ArrayList<Product>();
 		String message = "Recommendation found!";
-		try {
-			recommended = FakeRecommender.recommendSeveralCategories(questionary.isUnique(), products, questionary.getAgeUser(), questionary.getUpperBound(), questionary.getLowerBound());
-		} catch (RecommendationNotFoundException e) {
-			// TODO Auto-generated catch block
-			message = e.getMessage();
-		}
-		modelAndView.addObject("products", recommended);
+		Recommender recommender = new FakeRecommender(questionary.getAgeUser(),questionary.getLowerBound(),questionary.getUpperBound(),questionary.isUnique());
+		recommended = recommender.recommend(products);
+		if(recommended.size()==0)
+			message = "Your parameters are very restrictive";
 		modelAndView.addObject("message", message);
+		modelAndView.addObject("products", recommended);
 		return modelAndView;
 	}
 	private void loadFromJSON() throws FileNotFoundException {
