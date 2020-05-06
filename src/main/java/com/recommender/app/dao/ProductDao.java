@@ -8,12 +8,6 @@ import com.recommender.app.model.Product;
 
 public interface ProductDao {
 	int insertProduct(UUID id,Product product);
-	
-	default int insertProduct(Product product) {
-		
-		UUID id = UUID.randomUUID();
-		return insertProduct(id,product);
-	}
-	List<Product> getProductsWithCategory(String category);
+	int insertProduct(Product product);
 	List<Product> getAll();
 }

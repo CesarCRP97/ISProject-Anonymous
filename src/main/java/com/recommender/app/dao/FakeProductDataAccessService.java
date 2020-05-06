@@ -23,15 +23,12 @@ public class FakeProductDataAccessService implements ProductDao{
 		}
 		return products;
 	}
+	
 	@Override
-	public List<Product> getProductsWithCategory(String category) {
-		List<Product> products = new ArrayList<Product>();
-		for(Product prod:DB) {
-			if(prod.getCategory().equals(category))
-				products.add(prod);
-		}
-		return products;
-			
+	public int insertProduct(Product product) {
+		// TODO Auto-generated method stub
+		DB.add(product);
+		return 1;
 	}
 
 }

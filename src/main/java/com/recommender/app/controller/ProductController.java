@@ -38,13 +38,6 @@ public class ProductController {
 	@Autowired
 	public ProductController(ProductService service) {
 		this.service = service;
-		loaded = false;
-		try {
-			loadFromJSON();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Failed to load json file");
-		}
 	}
 
 	@GetMapping("")
@@ -96,26 +89,5 @@ public class ProductController {
 			return modelAndView;
 		}
 
-	}
-
-	private void loadFromJSON() throws FileNotFoundException {
-		if (!loaded) {
-			InputStream input = null;
-
-			input = new FileInputStream(new File("src/main/resources/static/products.json"));
-
-			if (input != null) {
-				JSONObject jo = new JSONObject(new JSONTokener(input));
-				JSONObject products = jo.getJSONObject("Products");
-				for (String productName : products.keySet()) {
-					JSONObject product = products.getJSONObject(productName);
-
-					service.addProduct(new Product(null, productName, product.getString("Language"), product.getString("Category"), product.getInt("Price"), product.getInt("Rating"),product.getString("Age")));
-
-				}
-				loaded = true;
-			}
-
-		}
 	}
 }
